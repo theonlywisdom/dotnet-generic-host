@@ -18,40 +18,28 @@ class Program
 
         IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddJsonFile("config.json")
-            .AddCommandLine(args,switchMappings)
+            .AddCommandLine(args, switchMappings)
             .Build();
 
         Console.WriteLine("***** Process Image *****");
         Console.WriteLine($" Processing: {args[0]}");
 
-        IConfiguration thumbnailConfig = configuration
-            .GetSection(nameof(Thumbnail));
-        ProcessImage(nameof(Thumbnail), thumbnailConfig);
-
-        IConfiguration mediumConfig = configuration
-            .GetSection(nameof(Thumbnail.Medium));
-        ProcessImage(nameof(Thumbnail.Medium), mediumConfig);
-
-        IConfiguration largeConfig = configuration
-            .GetSection(nameof(Thumbnail.Large));
-        ProcessImage(nameof(Thumbnail.Large), largeConfig);
+        var imageConfig = configuration
+            .GetSection(nameof(ImageConfig)).Get<ImageConfig>();
+        ProcessImage(nameof(ImageConfig.Thumbnail), imageConfig.Thumbnail, imageConfig.CompressionLevel);
+        ProcessImage(nameof(ImageConfig.Medium), imageConfig.Medium, imageConfig.CompressionLevel);
+        ProcessImage(nameof(ImageConfig.Large), imageConfig.Large, imageConfig.CompressionLevel);
 
         Console.WriteLine($"Watermark Text : {configuration["watermarkText"]}");
         Console.WriteLine($"Compression Level : {configuration["compressionLevel"]}");
     }
 
-    private static void ProcessImage(string imageSize, IConfiguration config)
+    private static void ProcessImage(string imageSize, ImageSizeConfig config, decimal compressionLevel)
     {
 
-        Console.WriteLine($"{imageSize} Width  : {config["width"]}");
-        Console.WriteLine($"{imageSize} FilePrefix  : {config["filePrefix"]}");
+        Console.WriteLine($"{imageSize} Width  : {config.Width}");
+        Console.WriteLine($"{imageSize} FilePrefix : {config.FilePrefix}");
+        Console.WriteLine($"{imageSize} Watermark  : {config.WaterMarkText}");
+        Console.WriteLine($"{imageSize} Compression Level : {compressionLevel}");
     }
-}
-
-public class Thumbnail
-{
-    public string Width { get; set; }
-    public string FilePrefix { get; set; }
-    public string Medium { get; set; }
-    public string Large { get; set; }
 }
