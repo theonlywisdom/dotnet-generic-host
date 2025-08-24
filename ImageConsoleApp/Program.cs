@@ -1,13 +1,14 @@
 ﻿using System;
 
-namespace ImageConsoleApp
+namespace ImageConsoleApp;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("***** Process Image *****");
-            Console.WriteLine($" Processing: {args[0]}");
-        }
+        IConfigurationBuilder
+
+        Console.WriteLine("***** Process Image *****");
+        Console.WriteLine($" Processing: {args[0]}");
     }
 }
