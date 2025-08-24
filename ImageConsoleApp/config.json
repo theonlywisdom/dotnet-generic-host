@@ -1,10 +1,16 @@
 {
-  "thumbnailWidth": 48,
-  "thumbnailFilePrefix": "thumbnail-",
-  "mediumWidth": 300,
-  "mediumWidthPrefix": "medium-",
-  "largeWidth": 720,
-  "largeWidthPrefix": "large-",
-  "watermarkText": "Carved Rocked Fitness",
-  "compressionLevel": 0.7
-}
+  "thumbnail": {
+    "width": 48,
+    "filePrefix": "thumbnail-"
+  },
+  "medium": {
+    "width": 300,
+    "filePrefix": "medium-"
+  },
+  "large": {
+    "width": 720,
+    "filePrefix": "large-"
+  },
+    "watermarkText": "Carved Rocked Fitness",
+    "compressionLevel": 0.7
+  }
