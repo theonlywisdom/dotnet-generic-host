@@ -6,10 +6,9 @@ class Program
 {
     static void Main(string[] args)
     {
-        var configurationBuilder = new ConfigurationBuilder();
-        configurationBuilder.AddJsonFile("config.json");
-
-       IConfigurationRoot configuration = configurationBuilder.Build();
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .AddJsonFile("config.json")
+            .Build();
 
         Console.WriteLine("***** Process Image *****");
         Console.WriteLine($" Processing: {args[0]}");
