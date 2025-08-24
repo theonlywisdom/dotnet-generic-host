@@ -24,13 +24,34 @@ class Program
         Console.WriteLine("***** Process Image *****");
         Console.WriteLine($" Processing: {args[0]}");
 
-        Console.WriteLine($"Thumbnail Width: {configuration["thumbnail:Width"]}");
-        Console.WriteLine($"Thumbnail FilePrefix: {configuration["thumbnail:FilePrefix"]}");
-        Console.WriteLine($"Medium Width : {configuration["medium:Width"]}");
-        Console.WriteLine($"Medium FilePrefix : {configuration["medium:FilePrefix"]}");
-        Console.WriteLine($"Large Width  : {configuration["large:Width"]}");
-        Console.WriteLine($"Large FilePrefix  : {configuration["large:FilePrefix"]}");
+        IConfiguration thumbnailConfig = configuration
+            .GetSection(nameof(Thumbnail));
+        ProcessImage(nameof(Thumbnail), thumbnailConfig);
+
+        IConfiguration mediumConfig = configuration
+            .GetSection(nameof(Thumbnail.Medium));
+        ProcessImage(nameof(Thumbnail.Medium), mediumConfig);
+
+        IConfiguration largeConfig = configuration
+            .GetSection(nameof(Thumbnail.Large));
+        ProcessImage(nameof(Thumbnail.Large), largeConfig);
+
         Console.WriteLine($"Watermark Text : {configuration["watermarkText"]}");
         Console.WriteLine($"Compression Level : {configuration["compressionLevel"]}");
     }
+
+    private static void ProcessImage(string imageSize, IConfiguration config)
+    {
+
+        Console.WriteLine($"{imageSize} Width  : {config["width"]}");
+        Console.WriteLine($"{imageSize} FilePrefix  : {config["filePrefix"]}");
+    }
+}
+
+public class Thumbnail
+{
+    public string Width { get; set; }
+    public string FilePrefix { get; set; }
+    public string Medium { get; set; }
+    public string Large { get; set; }
 }
