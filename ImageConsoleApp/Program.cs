@@ -6,7 +6,8 @@ namespace ImageConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("***** Process Image *****");
+            Console.WriteLine($" Processing: {args[0]}");
         }
     }
 }
