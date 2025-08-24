@@ -8,6 +8,7 @@ class Program
     {
         IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddJsonFile("config.json")
+            .AddCommandLine(args)
             .Build();
 
         Console.WriteLine("***** Process Image *****");
