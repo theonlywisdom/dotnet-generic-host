@@ -24,8 +24,11 @@ class Program
         Console.WriteLine("***** Process Image *****");
         Console.WriteLine($" Processing: {args[0]}");
 
-        var imageConfig = configuration
-            .GetSection(nameof(ImageConfig)).Get<ImageConfig>();
+        var imageConfig = new ImageConfig() { 
+            CompressionLevel = 0.99m
+        };
+        configuration.GetSection(nameof(ImageConfig)).Bind(imageConfig);
+
         ProcessImage(nameof(ImageConfig.Thumbnail), imageConfig.Thumbnail, imageConfig.CompressionLevel);
         ProcessImage(nameof(ImageConfig.Medium), imageConfig.Medium, imageConfig.CompressionLevel);
         ProcessImage(nameof(ImageConfig.Large), imageConfig.Large, imageConfig.CompressionLevel);
