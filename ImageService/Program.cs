@@ -1,7 +1,12 @@
 using ImageService;
 
 var builder = Host.CreateDefaultBuilder(args);
-builder.ConfigureServices((hostContext, services) =>
+builder
+.ConfigureAppConfiguration((hostContex, configBuilder) =>
+{
+    configBuilder.AddEnvironmentVariables(prefix: "ImageService_");
+})
+.ConfigureServices((hostContext, services) =>
 {
     services.AddHostedService<ImageFileWatcher>();
 });

@@ -2,7 +2,10 @@
   "profiles": {
     "ImageConsoleApp": {
       "commandName": "Project",
-      "commandLineArgs": "backpack.jpg"
+      "commandLineArgs": "backpack.jpg",
+      "environmentVariables": {
+        "ImageService_": "C:\\\\ImageDrop\\Dev"
+      }
     }
   }
 }
