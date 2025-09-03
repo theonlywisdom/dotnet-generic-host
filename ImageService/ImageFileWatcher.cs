@@ -1,11 +1,24 @@
 
+using ImageService.Configuration;
+using Microsoft.Extensions.Options;
+
 namespace ImageService;
 
-public class ImageFileWatcher(ILogger<ImageFileWatcher> logger, IConfiguration configuration) : IHostedService, IDisposable
+public class ImageFileWatcher : IHostedService, IDisposable
 {
-    private readonly ILogger<ImageFileWatcher> _logger = logger;
-    private readonly IConfiguration _configuration = configuration;
-    private FileSystemWatcher _watcher;
+    private readonly ILogger<ImageFileWatcher> _logger;
+    private readonly IConfiguration _configuration;
+    private FileSystemWatcher _watcher = new();
+
+    public ImageFileWatcher(ILogger<ImageFileWatcher> logger, IConfiguration configuration, IOptions<ImageConfig> imageConfigOptions)
+    {
+        _logger = logger;
+        _configuration = configuration;
+
+        var imageCongig = imageConfigOptions.Value;
+        logger.LogInformation("ImageConfig:\n" + "CompressionLevel: {CompressionLevel}\n" +
+          "OutputPath: {OutputPath}", imageCongig.CompressionLevel, imageCongig.OutputPath);
+    }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
