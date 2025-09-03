@@ -1,7 +1,3 @@
-
-using ImageService.Configuration;
-using Microsoft.Extensions.Options;
-
 namespace ImageService;
 
 public class ImageFileWatcher : IHostedService, IDisposable

@@ -1,6 +1,3 @@
-using ImageService;
-using ImageService.Configuration;
-
 var builder = Host.CreateDefaultBuilder(args);
 builder
 .ConfigureAppConfiguration((hostContex, configBuilder)
