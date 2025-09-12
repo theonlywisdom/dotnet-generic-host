@@ -8,7 +8,16 @@ builder
 =>
 {
     services.AddHostedService<ImageFileWatcher>()
-        .AddImageLibrary(hostContext.Configuration.GetSection(nameof(ImageConfig)));
+        .AddImageLibrary(
+        hostContext.Configuration.GetSection(nameof(ImageConfig)),
+        new ImageConfig
+        {
+            CompressionLevel = 0.2m
+        },
+        thumbnailSizeConfig =>
+        {
+            thumbnailSizeConfig.FilePrefix = "th-";
+        });
 });
 
 var host = builder.Build();

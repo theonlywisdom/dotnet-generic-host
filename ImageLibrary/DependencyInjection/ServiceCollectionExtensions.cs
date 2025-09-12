@@ -2,22 +2,19 @@
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddImageLibrary(this IServiceCollection services, IConfiguration configurationSection)
+    public static void AddImageLibrary(this IServiceCollection services, IConfiguration configurationSection, ImageConfig defaultImageConfig, Action<ImageSizeConfig> configureThumbnailSize)
     {
         services.AddSingleton<IThumbnailProcessor, ThumbnailProcessor>();
 
         services.AddOptions<ImageConfig>()
-            .Configure(imageConfig =>
+            .Configure(imageConfig  =>
             {
-                imageConfig.CompressionLevel = 0.99m;
+                imageConfig.CompressionLevel = defaultImageConfig.CompressionLevel;
             })
             .Bind(configurationSection);
 
         services.AddOptions<ImageSizeConfig>(ImageSizeConfig.Thumbnail)
-            .Configure(thumbnailSizeConfig =>
-            {
-                thumbnailSizeConfig.FilePrefix = "thumb-";
-            })
+            .Configure(configureThumbnailSize)
             .Bind(configurationSection.GetSection(ImageSizeConfig.Thumbnail));
 
         services.Configure<ImageSizeConfig>(ImageSizeConfig.Medium, configurationSection.GetSection(ImageSizeConfig.Medium));
