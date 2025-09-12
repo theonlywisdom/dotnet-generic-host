@@ -4,16 +4,14 @@ public class ImageFileWatcher : IHostedService, IDisposable
 {
     private readonly ILogger<ImageFileWatcher> _logger;
     private readonly IConfiguration _configuration;
+    private readonly IThumbnailProcessor _thumbnailProcessor;
     private FileSystemWatcher _watcher = new();
 
-    public ImageFileWatcher(ILogger<ImageFileWatcher> logger, IConfiguration configuration, IOptions<ImageConfig> imageConfigOptions)
+    public ImageFileWatcher(ILogger<ImageFileWatcher> logger, IConfiguration configuration, IThumbnailProcessor thumbnailProcessor)
     {
         _logger = logger;
         _configuration = configuration;
-
-        var imageConfig = imageConfigOptions.Value;
-        logger.LogInformation("CompressionLevel: {CompressionLevel}", imageConfig.CompressionLevel);
-        logger.LogInformation("OutputPath: {OutputPath}", imageConfig.OutputPath);
+        _thumbnailProcessor = thumbnailProcessor;
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -33,7 +31,7 @@ public class ImageFileWatcher : IHostedService, IDisposable
 
     private void OnNewImage(object sender, FileSystemEventArgs e)
     {
-        _logger.LogInformation("New image: {FullPath}", e.FullPath);
+        _thumbnailProcessor.ProcessImage(e.FullPath);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
