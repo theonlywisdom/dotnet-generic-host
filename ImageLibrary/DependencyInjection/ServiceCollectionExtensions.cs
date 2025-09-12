@@ -17,7 +17,14 @@ public static class ServiceCollectionExtensions
         services.AddOptions<ImageSizeConfig>(ImageSizeConfig.Thumbnail)
             .Configure(configureThumbnailSize)
             .Bind(configurationSection.GetSection(ImageSizeConfig.Thumbnail))
-            .ValidateDataAnnotations();
+            .ValidateDataAnnotations()
+            .PostConfigure(imageSizeConfig =>
+            {
+                if(imageSizeConfig.Width > 96)
+                {
+                    imageSizeConfig.Width = 42;
+                }
+            });
 
         services.AddSingleton<IValidateOptions<ImageSizeConfig>, ValidateImageSizeConfig>();
 
