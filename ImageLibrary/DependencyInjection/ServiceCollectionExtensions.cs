@@ -12,16 +12,14 @@ public static class ServiceCollectionExtensions
                 imageConfig.CompressionLevel = defaultImageConfig.CompressionLevel;
             })
             .Bind(configurationSection)
-            .Validate(
-            imageConfig => imageConfig.CompressionLevel > 0,
-            "Compression should be positive")
-            .Validate(
-            imageConfig => imageConfig.CompressionLevel <= 1,
-            "Compression should be less than 1");
+            .ValidateDataAnnotations();
 
         services.AddOptions<ImageSizeConfig>(ImageSizeConfig.Thumbnail)
             .Configure(configureThumbnailSize)
-            .Bind(configurationSection.GetSection(ImageSizeConfig.Thumbnail));
+            .Bind(configurationSection.GetSection(ImageSizeConfig.Thumbnail))
+            .ValidateDataAnnotations()
+            .Validate(
+            imageSizeConfig => imageSizeConfig.Width <= 96, "Thumbnail must be 96px or smaller");
 
         services.Configure<ImageSizeConfig>(ImageSizeConfig.Medium, configurationSection.GetSection(ImageSizeConfig.Medium));
         services.Configure<ImageSizeConfig>(ImageSizeConfig.Large, configurationSection.GetSection(ImageSizeConfig.Large));
