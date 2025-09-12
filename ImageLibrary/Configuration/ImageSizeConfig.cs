@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ImageLibrary.Configuration;
+﻿namespace ImageLibrary.Configuration;
 
 public class ImageSizeConfig {
     public const string Thumbnail = nameof(Thumbnail);

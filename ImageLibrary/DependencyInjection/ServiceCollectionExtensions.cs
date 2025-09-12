@@ -17,9 +17,9 @@ public static class ServiceCollectionExtensions
         services.AddOptions<ImageSizeConfig>(ImageSizeConfig.Thumbnail)
             .Configure(configureThumbnailSize)
             .Bind(configurationSection.GetSection(ImageSizeConfig.Thumbnail))
-            .ValidateDataAnnotations()
-            .Validate(
-            imageSizeConfig => imageSizeConfig.Width <= 96, "Thumbnail must be 96px or smaller");
+            .ValidateDataAnnotations();
+
+        services.AddSingleton<IValidateOptions<ImageSizeConfig>, ValidateImageSizeConfig>();
 
         services.Configure<ImageSizeConfig>(ImageSizeConfig.Medium, configurationSection.GetSection(ImageSizeConfig.Medium));
         services.Configure<ImageSizeConfig>(ImageSizeConfig.Large, configurationSection.GetSection(ImageSizeConfig.Large));
