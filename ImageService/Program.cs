@@ -1,3 +1,5 @@
+using ImageLibrary.DependencyInjection;
+
 var builder = Host.CreateDefaultBuilder(args);
 builder
 .ConfigureAppConfiguration((hostContex, configBuilder)
@@ -6,25 +8,7 @@ builder
 =>
 {
     services.AddHostedService<ImageFileWatcher>()
-        .AddSingleton<IThumbnailProcessor, ThumbnailProcessor>();
-    var config = hostContext.Configuration;
-
-    services.AddOptions<ImageConfig>()
-        .Configure(imageConfig =>
-        {
-            imageConfig.CompressionLevel = 0.99m;
-        })
-        .Bind(config.GetSection(nameof(ImageConfig)));
-
-    services.AddOptions<ImageSizeConfig>(ImageSizeConfig.Thumbnail)
-        .Configure(thumbnailSizeConfig =>
-        {
-            thumbnailSizeConfig.FilePrefix = "thumb-";
-        })
-        .Bind(config.GetSection("ImageConfig:thumbnail"));
-
-    services.Configure<ImageSizeConfig>(ImageSizeConfig.Medium, config.GetSection("ImageConfig:Medium"));
-    services.Configure<ImageSizeConfig>(ImageSizeConfig.Large, config.GetSection("ImageConfig:Large"));
+        .AddImageLibrary(hostContext.Configuration.GetSection(nameof(ImageConfig)));
 });
 
 var host = builder.Build();
