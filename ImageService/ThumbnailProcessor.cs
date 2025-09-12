@@ -1,14 +1,29 @@
 namespace ImageService;
 
-public class ThumbnailProcessor(
-    ILogger<ThumbnailProcessor> logger, 
-    IOptions<ImageConfig> imageOptionsConfig,
-    IOptionsMonitor<ImageSizeConfig> imageSizeConfigOptions) 
-    : IThumbnailProcessor
+public class ThumbnailProcessor : IThumbnailProcessor
 {
-    private readonly ILogger<ThumbnailProcessor> _logger = logger;
-    private readonly ImageConfig _imageConfig = imageOptionsConfig.Value;
-    private readonly ImageSizeConfig _thumbnailSizeConfig = imageSizeConfigOptions.Get(ImageSizeConfig.Thumbnail);
+    private readonly ILogger<ThumbnailProcessor> _logger;
+    private readonly ImageConfig _imageConfig;
+    private readonly ImageSizeConfig _thumbnailSizeConfig;
+
+    public ThumbnailProcessor(
+        ILogger<ThumbnailProcessor> logger,
+        IOptions<ImageConfig> imageOptionsConfig,
+        IOptionsMonitor<ImageSizeConfig> imageSizeConfigOptions)
+    {
+        _logger = logger;
+        _imageConfig = imageOptionsConfig.Value;
+        _thumbnailSizeConfig = imageSizeConfigOptions.Get(ImageSizeConfig.Thumbnail);
+        imageSizeConfigOptions.OnChange((thumbnailSizeConfig, name) =>
+        {
+            if (name == ImageSizeConfig.Thumbnail)
+            {
+                _logger.LogInformation("** Thumbnail Image Config Changed **\n\t" +
+                "File Prefix: {FilePrefix}\n\t " +
+                "Width: {Width}", thumbnailSizeConfig.Width, thumbnailSizeConfig.FilePrefix);
+            }
+        });
+    }
 
     public void ProcessImage(string imagePath)
     {

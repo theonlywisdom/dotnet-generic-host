@@ -23,7 +23,6 @@ builder
         })
         .Bind(config.GetSection("ImageConfig:thumbnail"));
 
-    services.Configure<ImageSizeConfig>(ImageSizeConfig.Thumbnail, config.GetSection("ImageConfig:Thumbnail"));
     services.Configure<ImageSizeConfig>(ImageSizeConfig.Medium, config.GetSection("ImageConfig:Medium"));
     services.Configure<ImageSizeConfig>(ImageSizeConfig.Large, config.GetSection("ImageConfig:Large"));
 });
