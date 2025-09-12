@@ -1,3 +1,3 @@
 ﻿global using ImageService;
-global using ImageService.Configuration;
-global using Microsoft.Extensions.Options;
+global using ImageLibrary;
+global using ImageLibrary.Configuration;

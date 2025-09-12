@@ -1,4 +1,4 @@
-namespace ImageService;
+namespace ImageLibrary;
 
 public class ThumbnailProcessor : IThumbnailProcessor
 {

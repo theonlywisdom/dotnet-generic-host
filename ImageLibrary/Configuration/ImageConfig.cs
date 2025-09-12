@@ -1,4 +1,4 @@
-﻿namespace ImageService.Configuration;
+﻿namespace ImageLibrary.Configuration;
 
 public class ImageConfig
 {
