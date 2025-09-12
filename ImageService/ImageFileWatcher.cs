@@ -11,9 +11,9 @@ public class ImageFileWatcher : IHostedService, IDisposable
         _logger = logger;
         _configuration = configuration;
 
-        var imageCongig = imageConfigOptions.Value;
-        logger.LogInformation("ImageConfig:\n" + "CompressionLevel: {CompressionLevel}\n" +
-          "OutputPath: {OutputPath}", imageCongig.CompressionLevel, imageCongig.OutputPath);
+        var imageConfig = imageConfigOptions.Value;
+        logger.LogInformation("CompressionLevel: {CompressionLevel}", imageConfig.CompressionLevel);
+        logger.LogInformation("OutputPath: {OutputPath}", imageConfig.OutputPath);
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
